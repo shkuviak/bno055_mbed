@@ -39,7 +39,7 @@ int main() {
 
         // printf("Temp: %d\n", imu.temperature);
         angles ang = imu.euler;
-        printf("{ \"id\": %d, \"calib_state\": %0d, \"euler_roll\": %d, \"euler_pitch\": %d, \"euleur_yaw\": %d }\r\n",imu.ID.id, imu.calib,imu.euler.rawroll,imu.euler.rawpitch,imu.euler.rawyaw);
+        printf("{ \"id\": %d, \"calib_state\": %0d, \"euler_roll\": %d, \"euler_pitch\": %d, \"euler_yaw\": %d }\r\n",imu.ID.id, imu.calib,imu.euler.rawroll,imu.euler.rawpitch,imu.euler.rawyaw);
         // printf("{ accel_x: %d, accel_y: %d, accel_z %d }\r\n",imu.accel.rawx,imu.accel.rawy,imu.accel.rawz);
         ThisThread::sleep_for(10ms);
     }
