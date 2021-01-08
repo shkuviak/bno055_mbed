@@ -5,4 +5,6 @@ projectfiles
 mbed-os
 BUILD
 
-BNO055
+BNO055/.hg
+
+
