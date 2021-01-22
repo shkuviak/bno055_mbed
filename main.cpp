@@ -8,6 +8,8 @@
 TCA9548A tca(I2C_SDA, I2C_SCL);
 BNO055 imu(I2C_SDA,I2C_SCL);
 DigitalOut led(LED1);
+
+Timer t;
  
 int main() {
     // Init - Scan BNO devices
@@ -48,6 +50,8 @@ int main() {
             printf("Firmware version v%d.%0d\r\n",imu.ID.sw[0],imu.ID.sw[1]);
             printf("Bootloader version v%d\r\n\r\n",imu.ID.bootload);
 
+            imu.setmode(OPERATION_MODE_NDOF);
+
             // Display chip serial number
             for (int i = 0; i<4; i++){
                 printf("%0d.%0d.%0d.%0d\r\n",imu.ID.serial[i*4],imu.ID.serial[i*4+1],imu.ID.serial[i*4+2],imu.ID.serial[i*4+3]);
@@ -60,6 +64,8 @@ int main() {
   
 
     while (true) {
+        // t.reset();
+        // t.start();
         // Prepare data to be sent to PC
         string to_send("[");
         char buffer[100];
@@ -70,11 +76,10 @@ int main() {
             tca.SelectCanal(availableBNO[i]);
 
             // Get IMU infos on this channel
-            imu.setmode(OPERATION_MODE_NDOF);
             imu.get_calib();
             imu.get_angles();
-            imu.get_temp();
-            imu.get_accel();
+            // imu.get_temp();
+            // imu.get_accel();
 
             angles ang = imu.euler;
             //ThisThread::sleep_for(10ms);
@@ -87,5 +92,7 @@ int main() {
 
         // Send all data
         printf("%s]\r\n", to_send.c_str());
+        // t.stop();
+        // printf("\nThe time taken was %llu milliseconds\n\n", duration_cast<chrono::milliseconds>(t.elapsed_time()).count());
     }
 }
