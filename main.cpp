@@ -8,10 +8,12 @@
 TCA9548A tca(I2C_SDA, I2C_SCL);
 BNO055 imu(I2C_SDA,I2C_SCL);
 DigitalOut led(LED1);
+static BufferedSerial pc(USBTX, USBRX);
 
 Timer t;
  
 int main() {
+    pc.set_baud(115200);
     // Init - Scan BNO devices
     int availableBNO[8];
     int bnoCount = 0;
@@ -85,7 +87,7 @@ int main() {
             //ThisThread::sleep_for(10ms);
 
             // Format string
-            sprintf(buffer, "{ \"id\": %d, \"calib_state\": %0d, \"euler_roll\": %d, \"euler_pitch\": %d, \"euler_yaw\": %d }" , availableBNO[i], imu.calib,imu.euler.rawroll,imu.euler.rawpitch,imu.euler.rawyaw);
+            sprintf(buffer, "{ \"id\": %d, \"calib_state\": %0d, \"roll\": %d, \"pitch\": %d, \"yaw\": %d }" , availableBNO[i], imu.calib,imu.euler.rawroll,imu.euler.rawpitch,imu.euler.rawyaw);
             to_send += buffer;
             if(i+1 < bnoCount) to_send += ',';
         }
